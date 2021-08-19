@@ -1,3 +1,17 @@
+import configparser
+
+
+def interface_for_config_file(name_of_parameter: str):
+    config = configparser.ConfigParser()
+    config.read('input.ini')
+    if name_of_parameter == "FileName":
+        parameter = config['FileName']['FileName']
+        return parameter
+    else:
+        parameter = config['Parameters'][name_of_parameter]
+    return float(parameter)
+
+
 def split(string: str, delimiters=' ') -> list:
     result = []
     word = ''
@@ -11,6 +25,22 @@ def split(string: str, delimiters=' ') -> list:
     if word:
         result.append(word)
     return result
+
+# def split(str) -> list:
+#     output = []
+#     delimiters = {' ', '\t', '\n'}
+#     delimiter_found = False
+#     for c in str:
+#         if c in delimiters:
+#             delimiter_found = True
+#         elif output:
+#             if delimiter_found:
+#                 output.append('')
+#                 delimiter_found = False
+#             output[-1] += c
+#         else:
+#             output.append(c)
+#     return output
 
 
 def sort(sub_list: list) -> list:

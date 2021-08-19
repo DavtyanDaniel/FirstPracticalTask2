@@ -1,8 +1,7 @@
-import configparser
 import my_functions
 
 
-def data_file_has_an_comments(tsv_file):
+def data_file_has_an_comments(tsv_file) -> bool:
     """
     Checking if tsv or csv file has a comments
     """
@@ -16,28 +15,17 @@ def data_file_has_an_comments(tsv_file):
 
 
 def opening_and_parsing_file():
-    config = configparser.ConfigParser()
-    config.read('input.ini')
-    file_name = config['FileName']['FileName']
+    file_name = my_functions.interface_for_config_file('FileName')
 
     with open(file_name, 'r') as tsv_file:
         if data_file_has_an_comments(tsv_file):
             next(tsv_file)
 
-        # get the number of columns
-        for line in tsv_file.readlines():
-            array = my_functions.split(line, delimiters=',')
-        num_of_columns = len(array)
-
-        tsv_file.seek(0)
-        if data_file_has_an_comments(tsv_file):
-            next(tsv_file)
-
         data = []
-        included_cols = [5, 6, 7]
-        number_of_rows = 0
+        included_cols = [5, 6, 7, 22]
+        # Adding all data to list
         for row in tsv_file:
-            reader = my_functions.split(row, '\t')
+            reader = row.split('\t')
             data.append(reader)
 
         number_of_rows = len(data)
@@ -52,9 +40,6 @@ def opening_and_parsing_file():
             inner_list.append(result)
             result = []
 
-        for i in inner_list:
-            print(i)
-
-opening_and_parsing_file()
+        return inner_list
 
 
