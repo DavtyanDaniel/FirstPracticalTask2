@@ -12,37 +12,6 @@ def interface_for_config_file(name_of_parameter: str):
     return float(parameter)
 
 
-def split(string: str, delimiters=' ') -> list:
-    result = []
-    word = ''
-    for c in string:
-        if c not in delimiters:
-            word += c
-        elif word:
-            result.append(word)
-            word = ''
-
-    if word:
-        result.append(word)
-    return result
-
-# def split(str) -> list:
-#     output = []
-#     delimiters = {' ', '\t', '\n'}
-#     delimiter_found = False
-#     for c in str:
-#         if c in delimiters:
-#             delimiter_found = True
-#         elif output:
-#             if delimiter_found:
-#                 output.append('')
-#                 delimiter_found = False
-#             output[-1] += c
-#         else:
-#             output.append(c)
-#     return output
-
-
 def sort(sub_list: list) -> list:
     """
     Sorting by last element of list (bubble sort)

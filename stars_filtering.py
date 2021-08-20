@@ -1,13 +1,10 @@
-import math
 import my_functions
 
 
-def computing_range_of_square() -> tuple:
-    ra = my_functions.interface_for_config_file('RA')
-    dec = my_functions.interface_for_config_file('DEC')
-    fov_h = my_functions.interface_for_config_file('Fov_h')
-    fov_v = my_functions.interface_for_config_file('Fov_v')
-
+def computing_range_of_square(ra, dec, fov_h, fov_v) -> tuple:
+    """
+    calculating the range of given FOV
+    """
     # square's weight left number
     square_w_l = ra - fov_h / 2
     # square's weight right number
@@ -20,21 +17,23 @@ def computing_range_of_square() -> tuple:
     return square_w_l, square_w_r, square_h_l, square_h_r
 
 
-def filtering_by_coordinates(data: list) -> list:
+def filtering_by_coordinates(row: list,
+                             square_w_l: float,
+                             square_w_r: float,
+                             square_h_l: float,
+                             square_h_r: float) -> list:
     """
-    parameter args is an return value of computing_range_of_square() function
+    filtering by ra/dec coordinates, for that we have to know the range of FOV, that's
+    why in parameters list we have range of it.
     """
-    range_of_square = computing_range_of_square()
-    filtered_stars = []
-    for i in data:
-        if (range_of_square[0] <= float(i[0]) <= range_of_square[1]) and \
-                (range_of_square[2] <= float(i[1]) <= range_of_square[3]):
-            filtered_stars.append(i)
+    included_cols = [5, 6, 7, 22]  # The columns that we needed(ra, dec, id, mag)
 
-    return filtered_stars
+    if (square_w_l <= float(row[0]) <= square_w_r) and (square_h_l <= float(row[1]) <= square_h_r):
+        content = list(row[k] for k in included_cols)
+        return content
 
 
-def checking_number_of_stars(filtered_stars: list) -> int:
+def checking_number_of_stars(filtered_stars: list, number_of_stars) -> int:
     """
     checking if given number of stars bigger than filtered stars
     """
@@ -44,19 +43,28 @@ def checking_number_of_stars(filtered_stars: list) -> int:
 
     return int(number_of_stars)
 
-# def distance_colculation(filtered_stars: list):
-#     number_of_stars = checking_number_of_stars(filtered_stars)
-#
-#     result = []
-#     while i < number_of_stars:
-#         result.append(filtered_stars[i])
-#
-#         distance = math.sqrt(pow(float(filtered_stars[i][0]) - float(RA_DEC_TUPLE[0]), 2) +
-#                              pow(float(filtered_stars[i][1]) - float(RA_DEC_TUPLE[1]), 2))
-#         result[i].append(distance)
-#         i = i + 1
-#
-# def euclidean_distance(filtered_stars: list):
-#
-#     distance =
+
+def euclidean_distance(star: list, ra, dec) -> float:
+    """
+    Calculating by euclidean metric.
+    """
+    distance = ((float(star[0]) - ra) ** 2 + (float(star[1]) - dec) ** 2) ** 0.5
+    return distance
+
+
+def distance_calculation(filtered_stars: list, ra, dec, number_of_stars) -> list:
+    """
+    Function is calculating the distance of given number of stars
+    """
+    number_of_stars = checking_number_of_stars(filtered_stars, number_of_stars)
+    i = 0
+    result = []
+    while i < number_of_stars:
+        result.append(filtered_stars[i])
+        distance = euclidean_distance(filtered_stars[i], ra, dec)
+        result[i].append(distance)
+        i = i + 1
+    return result
+
+
 
