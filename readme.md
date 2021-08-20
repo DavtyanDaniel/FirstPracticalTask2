@@ -8,6 +8,8 @@ coordinates._
 
 _The script is accepting parameters that you can write in <span style="color: green"> input.ini </span> file._
 
+_List of parameters_
+
 _<span style="color: yellow"> NumberOfStars </span> - Is the number of the brightest stars in the given FOV._
 
 _<span style="color: yellow"> RA, DEC </span> - are the coordinates that you give for know the center of FOV._
