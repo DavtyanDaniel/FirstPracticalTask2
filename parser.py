@@ -1,4 +1,9 @@
-import my_functions
+"""
+This module is for functions that related to file opening and creating.
+"""
+
+from datetime import datetime
+
 import stars_filtering
 
 
@@ -17,7 +22,7 @@ def data_file_has_an_comments(tsv_file) -> bool:
 
 def opening_and_parsing_file(file_name, square_w_l, square_w_r, square_h_l, square_h_r):
     """
-    Function is opening, parsing file, and filtering them with the help
+    Function not only opening and parsing the file but also filtering them with the help
     of filtering_by_coordinates function.
     """
 
@@ -40,15 +45,16 @@ def opening_and_parsing_file(file_name, square_w_l, square_w_r, square_h_l, squa
     return result
 
 
-if __name__ == "__main__":
-     ra = my_functions.interface_for_config_file("RA")
-     dec = my_functions.interface_for_config_file("DEC")
-     fov_հ = my_functions.interface_for_config_file('Fov_h')
-     fov_v = my_functions.interface_for_config_file("Fov_v")
+def writing_filtered_data_in_csv_file(filtered_stars: list):
 
-     square = stars_filtering.computing_range_of_square(ra, dec, fov_հ, fov_v)
+    with open(f'{datetime.now()}.csv', 'w') as csv_file:
+        header = "RA, DEC, ID, Magnitude, Dis_from_gv_point\n"
+        csv_file.write(header)
 
-     data = opening_and_parsing_file('337.all.tsv', square[0], square[1], square[2], square[3])
-     for i in data:
-         print(i)
-
+        for i in filtered_stars:
+            row_data = str(i[0]) + ',' + \
+                       str(i[1]) + ',' + \
+                       str(i[2]) + ',' + \
+                       str(i[3]) + ',' + \
+                       str(i[4]) + ',' + '\n'
+            csv_file.write(row_data)

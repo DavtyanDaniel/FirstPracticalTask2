@@ -2,6 +2,10 @@ import configparser
 
 
 def interface_for_config_file(name_of_parameter: str):
+    """
+    This function is smth  like API for input.ini file
+    """
+
     config = configparser.ConfigParser()
     config.read('input.ini')
     if name_of_parameter == "FileName":

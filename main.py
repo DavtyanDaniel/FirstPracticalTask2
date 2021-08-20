@@ -1,15 +1,17 @@
-import datetime
 import stars_filtering
 import parser
 import my_functions
 
 
-def main(file_path_or_name: str= my_functions.interface_for_config_file("FileName"),
-         ra: float= my_functions.interface_for_config_file('RA'),
-         dec: float= my_functions.interface_for_config_file('DEC'),
-         fov_h: float= my_functions.interface_for_config_file('Fov_h'),
-         fov_v: float= my_functions.interface_for_config_file('Fov_v'),
+def main(file_path_or_name: str = my_functions.interface_for_config_file("FileName"),
+         ra: float = my_functions.interface_for_config_file('RA'),
+         dec: float = my_functions.interface_for_config_file('DEC'),
+         fov_h: float = my_functions.interface_for_config_file('Fov_h'),
+         fov_v: float = my_functions.interface_for_config_file('Fov_v'),
          number_of_stars: float = my_functions.interface_for_config_file('NumberOfStars')):
+    """
+    This is main function, that units all the work in different functions.
+    """
 
     max_ra = stars_filtering.computing_range_of_square(ra, dec, fov_h, fov_v)[0]
     min_ra = stars_filtering.computing_range_of_square(ra, dec, fov_h, fov_v)[1]
@@ -20,6 +22,7 @@ def main(file_path_or_name: str= my_functions.interface_for_config_file("FileNam
     filtered_stars = my_functions.sort(filtered_stars)
     filtered_stars = stars_filtering.distance_calculation(filtered_stars, ra, dec, number_of_stars)
     filtered_stars = my_functions.sort(filtered_stars)
+    parser.writing_filtered_data_in_csv_file(filtered_stars)
 
     for i in filtered_stars:
         print(i)

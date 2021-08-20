@@ -1,4 +1,6 @@
-import my_functions
+"""
+This Module is for functions that related with stars filtering.
+"""
 
 
 def computing_range_of_square(ra, dec, fov_h, fov_v) -> tuple:
@@ -37,7 +39,6 @@ def checking_number_of_stars(filtered_stars: list, number_of_stars) -> int:
     """
     checking if given number of stars bigger than filtered stars
     """
-    number_of_stars = my_functions.interface_for_config_file('NumberOfStars')
     if len(filtered_stars) < number_of_stars:
         number_of_stars = len(filtered_stars)
 
